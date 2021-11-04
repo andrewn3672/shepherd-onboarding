@@ -82,6 +82,8 @@ def respond_to_notify(text):
         ydl_send(*PING_HEADERS.RESPOND(text=response, time=time.time()))
 
     ###### YOUR CODE HERE ######
+    elif text in RESPONSES.BANNED_RESPONSES:
+        BANNED = True
 
     # otherwise, just echo the message
     else:
@@ -96,7 +98,9 @@ def respond_to_repeat():
     Send the most recent response back to ping via ydl so long as we are not banned.
     """
     ###### YOUR CODE HERE ######
-    pass
+    if LAST_MESSAGE is not None and not BANNED:
+        ydl_send(*PING_HEADERS.RESPOND(text=LAST_MESSAGE, time=time.time()))
+    
 
 # a mapping of header names to the functions that will be called to handle that header.
 HEADER_MAPPINGS = {
