@@ -203,20 +203,67 @@ def start_game():
     PRESIDENT_ID = next_president_id()
     CARD_DECK = new_deck()
 
-    # BEGIN QUESTION 1: initialize the list deck with 1 hitler and the relevant number of fascist and liberal cards. Hint: don't use raw strings to represent the roles. Instead, look for a useful class in Utils.py.
-    # see the table on page 2 of the rules: https://secrethitler.com/assets/Secret_Hitler_Rules.pdf#page=2. For a challenge, try coming up with a formula for it.
+    # BEGIN QUESTION 1: initialize the list deck with 1 hitler and the relevant number of fascist and liberal cards. 
+    #Hint: don't use raw strings to represent the roles. Instead, look for a useful class in Utils.py.
+    # see the table on page 2 of the rules: https://secrethitler.com/assets/Secret_Hitler_Rules.pdf#page=2. 
+    #For a challenge, try coming up with a formula for it.
+    if len(PLAYERS) == 5:
+        CARD_DECK.append(ROLES.HITLER)
+        CARD_DECK.append(ROLES.FASCIST)
+        for i in range(3):
+            CARD_DECK.append(ROLES.LIBERAL)
+    else if len(PLAYERS) == 6:
+        CARD_DECK.append(ROLES.HITLER)
+        for i in range(1):
+            CARD_DECK.append(ROLES.FASCIST)
+        for i in range(3):
+            CARD_DECK.append(ROLES.LIBERAL)
+    else if len(PLAYERS) == 7:
+        CARD_DECK.append(ROLES.HITLER)
+        for i in range(2):
+            CARD_DECK.append(ROLES.FASCIST)
+        for i in range(4):
+            CARD_DECK.append(ROLES.LIBERAL)
+    else if len(PLAYERS) == 8:
+        CARD_DECK.append(ROLES.HITLER)
+        for i in range(2):
+            CARD_DECK.append(ROLES.FASCIST)
+        for i in range(5):
+            CARD_DECK.append(ROLES.LIBERAL)
+    else if len(PLAYERS) == 9:
+        CARD_DECK.append(ROLES.HITLER)
+        for i in range(3):
+            CARD_DECK.append(ROLES.FASCIST)
+        for i in range(5):
+            CARD_DECK.append(ROLES.LIBERAL)
+    else if len(PLAYERS) == 10:
+        CARD_DECK.append(ROLES.HITLER)
+        for i in range(3):
+            CARD_DECK.append(ROLES.FASCIST)
+        for i in range(6):
+            CARD_DECK.append(ROLES.LIBERAL)
 
 
     # TODO: add lines here!
 
-    shuffle_deck(______)
+    shuffle_deck(CARD_DECK)
+
+    if len(PLAYERS) > 10:
+        spectators = len(PLAYERS) - 10
+        for i in range(spectators):
+            CARD_DECK.append(ROLES.SPECTATOR)
 
     # Assign roles for each player using the deck.
     player_objs = list(PLAYERS.values())
     for i in range(len(PLAYERS)):
-        player_objs[i].role = ________
+        player_objs[i].role = CARD_DECK[i]
     # Initialize the board.
-    BOARD = ____________
+    if len(PLAYERS) == 5 or len(PLAYERS) == 6:
+        BOARD = BOARDS.FIVE_SIX
+    elif len(PLAYERS) == 7 or len(PLAYERS) == 8:
+        BOARD = BOARDS.SEVEN_EIGHT
+    elif len(PLAYERS) == 9 or len(PLAYERS) == 10:
+        BOARD = BOARDS.NINE_TEN
     # END QUESTION 1
 
     send_individual_setups()
