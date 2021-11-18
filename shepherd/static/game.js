@@ -151,12 +151,12 @@
           // if this player is the president, have them select a chancellor nominee
           hideAllExcept(["miscEntryText"]);
           document.getElementById("miscEntryText").textContent =
-            ______________________;
+            "Choose a chancellor!";
           display_player_buttons(eligibles, "nominateChancellor");
         } else {
           hideAllExcept(["miscEntryText"]);
           document.getElementById("miscEntryText").textContent =
-            ______________________;
+            "President is choosing chancellor!";
         }
         // END QUESTION 3
       });

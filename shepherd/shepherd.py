@@ -212,31 +212,31 @@ def start_game():
         CARD_DECK.append(ROLES.FASCIST)
         for i in range(3):
             CARD_DECK.append(ROLES.LIBERAL)
-    else if len(PLAYERS) == 6:
+    elif len(PLAYERS) == 6:
         CARD_DECK.append(ROLES.HITLER)
         for i in range(1):
             CARD_DECK.append(ROLES.FASCIST)
         for i in range(3):
             CARD_DECK.append(ROLES.LIBERAL)
-    else if len(PLAYERS) == 7:
+    elif len(PLAYERS) == 7:
         CARD_DECK.append(ROLES.HITLER)
         for i in range(2):
             CARD_DECK.append(ROLES.FASCIST)
         for i in range(4):
             CARD_DECK.append(ROLES.LIBERAL)
-    else if len(PLAYERS) == 8:
+    elif len(PLAYERS) == 8:
         CARD_DECK.append(ROLES.HITLER)
         for i in range(2):
             CARD_DECK.append(ROLES.FASCIST)
         for i in range(5):
             CARD_DECK.append(ROLES.LIBERAL)
-    else if len(PLAYERS) == 9:
+    elif len(PLAYERS) == 9:
         CARD_DECK.append(ROLES.HITLER)
         for i in range(3):
             CARD_DECK.append(ROLES.FASCIST)
         for i in range(5):
             CARD_DECK.append(ROLES.LIBERAL)
-    else if len(PLAYERS) == 10:
+    elif len(PLAYERS) == 10:
         CARD_DECK.append(ROLES.HITLER)
         for i in range(3):
             CARD_DECK.append(ROLES.FASCIST)
@@ -258,12 +258,10 @@ def start_game():
     for i in range(len(PLAYERS)):
         player_objs[i].role = CARD_DECK[i]
     # Initialize the board.
-    if len(PLAYERS) == 5 or len(PLAYERS) == 6:
-        BOARD = BOARDS.FIVE_SIX
-    elif len(PLAYERS) == 7 or len(PLAYERS) == 8:
-        BOARD = BOARDS.SEVEN_EIGHT
-    elif len(PLAYERS) == 9 or len(PLAYERS) == 10:
-        BOARD = BOARDS.NINE_TEN
+    if len(PLAYERS) > 10:
+        BOARD = Board(10)
+    else:
+        BOARD = Board(len(PLAYERS))
     # END QUESTION 1
 
     send_individual_setups()
@@ -304,7 +302,16 @@ def eligible_chancellor_nominees():
     # Hint: the function remove_if_exists might be useful
 
     # TODO: replace the pass with your own code!
-    pass
+    eligible = []
+    for id in PLAYERS.keys():
+        if len(PLAYERS) > 5:
+            if (id != PRESIDENT_ID) & (id != PREVIOUS_PRESIDENT_ID) & (id != PREVIOUS_CHANCELLOR_ID):
+                eligible.append(id)
+        else:
+            if (id != PRESIDENT_ID) & (id != PREVIOUS_CHANCELLOR_ID):
+                eligible.append(id)
+    return eligible
+
 
     # END QUESTION 3
 
@@ -718,8 +725,8 @@ def send_policies_enacted(id = None):
     # Hint: look at utils.py for this header,
     # and look at Board.py to see what instance attributes you need
     ydl_send(*UI_HEADERS.POLICIES_ENACTED(
-        _____________________,
-        _____________________,
+        liberal=BOARD.liberal_enacted,
+        fascist=BOARD.fascist_enacted,
         recipients=None if id is None else [id]
     ))
     # END QUESTION 2
@@ -737,7 +744,10 @@ def send_chancellor_request(id = None):
     # Hint: you should use the eligible_chancellor_nominees function
     
     # TODO: replace pass with your code!
-    pass
+    ydl_send(*UI_HEADERS.CHANCELLOR_REQUEST(
+        eligibles=eligible_chancellor_nominees(),
+        recipients=None if id is None else [id]
+    ))
 
     # END QUESTION 3
 
